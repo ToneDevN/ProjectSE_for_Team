@@ -1,0 +1,208 @@
+<x-app-layout>
+    {{-- sideBar --}}
+    <div class="grid grid-cols-12">
+        <div class="col-start-1 col-span-2 h-screen">
+            <div class="bg-gray-800 w-full rounded-r-md h-full mt-2 mr-5 text-white text-xl font-medium py-4 pr-2">
+                <ul class="grid gap-4 ">
+                    <li class="h-10 ">
+                        <a href="{{ route('teacher.subject', ['id' => $id]) }}">
+                            <div class="bg-gray-900 w-full h-full flex justify-items-start rounded-r-md p-4">
+                                <div class="place-self-center">หน้าหลักวิชา</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="h-10 ">
+                        <a href="{{ route('teacher.rollcall', ['id' => $id]) }}">
+                            <div class="bg-gray-900 w-full h-full flex justify-items-start rounded-r-md p-4">
+                                <div class="place-self-center">คะแนนเช็คชื่อ</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="h-10 ">
+                        <a href="{{ route('teacher.lab', ['id' => $id]) }}">
+                            <div class="bg-gray-900 w-full h-full flex justify-items-start rounded-r-md p-4">
+                                <div class="place-self-center">คะแนนแล็บ</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="h-10 ">
+                        <a href="{{ route('teacher.manage', ['id' => $id]) }}">
+                            <div class="bg-gray-900 w-full h-full flex justify-items-start rounded-r-md p-4 border-l-4">
+                                <div class="place-self-center">จัดการผู้ใช้</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="h-10 ">
+                        <a href="{{ route('teacher.export', ['id' => $id]) }}">
+                            <div class="bg-gray-900 w-full h-full flex justify-items-start rounded-r-md p-4">
+                                <div class="place-self-center">ส่งออกข้อมูล</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="h-10 ">
+                        <a href="{{ route('teacher.home') }}">
+                            <div class="bg-gray-900 w-full h-full flex justify-items-start rounded-r-md p-4 text-lg">
+                                <div class="place-self-center">กลับไปยังหน้าหลัก</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {{-- EndSideBar --}}
+        <div class="col-start-3 col-span-12 ">
+            <div class="pt-6">
+                <div class="w-full mx-auto sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 text-gray-900 text-2xl font-medium">
+                            นักศึกษา
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <button class="bg-blue-600 w-14 h-14 font-bold text-4xl rounded-full text-white fixed bottom-0 right-0 m-10"
+        id="openModal">
+        <span class="material-symbols-outlined" style="font-size: 56px">
+            add
+        </span>
+    </button>
+    <div id="modalOverlay" class="modal-overlay"></div>
+    <div id="importstudent" class="fixed mt-10 inset-0 z-50 hidden">
+        <!-- Modal Content -->
+        <div class="flex place-content-center">
+            <div class="bg-white p-16 rounded-md shadow-lg">
+                <div class="flex flex-row h-10 text-lg font-light text-gray-100 mb-4  ">
+                    <button class="bg-blue-600 w-1/2 h-full rounded-l-md border-b-4 border-blue-400"
+                        id="">นำเข้ารายบุคคล</button>
+                    <button class="bg-blue-500 w-1/2 h-full rounded-r-md" id="toggleFile">นำเข้าไฟล์ Excel</button>
+                </div>
+
+                <form action="{{ route('teacher.addStudent') }}" method="POST" class="flex flex-col my-4">
+                    @csrf
+                    <label for="subject_name">รหัสนักศึกษา :</label>
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="code" id="code">
+                    <label for="subject_code">ชื่อ-นามสกุล :</label>
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="name" id="name">
+                    <label for="subject_desc">อีเมล :</label>
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="email" id="email">
+                    <label for="section">คณะ :</label>
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="faculty" id="faculty">
+                    <label for="section">สาขา :</label>
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="branch" id="branch">
+                    <input type="hidden" name="subject_id" value="{{$id}}">
+                    <div class="flex justify-end">
+                        <button id="closeModal" type="button"
+                            class="mt-4 mx-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                            ปิด
+                        </button>
+                        <button id="saveData" type="submit"
+                            class="mt-4 mx-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            เพิ่ม
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="importfile" class="fixed mt-10 inset-0 z-50 hidden">
+        <!-- Modal Content -->
+        <div class="flex place-content-center">
+            <div class="bg-white p-16 rounded-md shadow-lg">
+                <div class="flex flex-row h-10 text-lg font-light text-gray-100 mb-4  ">
+                    <button class="bg-blue-500 w-1/2 h-full rounded-l-md " id="toggleStudent">นำเข้ารายบุคคล</button>
+                    <button class="bg-blue-600 w-1/2 h-full rounded-r-md border-b-4 border-blue-400"
+                        id="">นำเข้าไฟล์ Excel</button>
+                </div>
+
+                <form action="{{ route('teacher.addsubject') }}" method="POST" class="flex flex-col my-4">
+                    @csrf
+
+                    <div class="flex items-center justify-center flex-col w-96">
+                        <label for="dropzone-file"
+                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                </svg>
+                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                                        class="font-semibold">Click to upload</span> or drag and drop</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">สามารถอัปโหลดได้เฉพาะไฟล์ .xls
+                                    เท่านั้น</p>
+                            </div>
+                            <input id="dropzone-file" type="file" class="hidden" name="dropzone-file" />
+
+                        </label>
+                        <p class="place-self-start my-4">Selected File: <span id="file_name_display">No file
+                                selected</span></p>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button id="closeImportfile" type="button"
+                            class="mt-4 mx-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                            ปิด
+                        </button>
+                        <button id="saveData" type="submit"
+                            class="mt-4 mx-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            เพิ่ม
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+
+            // Open modal
+            function showStudentModal() {
+                $("#importstudent").toggleClass("hidden");
+                $("#modalOverlay").show();
+            }
+
+            // Open modal import file.
+            function toggleStudentImport() {
+                $("#importstudent").toggleClass("hidden");
+                $("#importfile").toggleClass("hidden");
+            }
+
+            function toggleFileImport() {
+                $("#importstudent").toggleClass("hidden");
+                $("#importfile").toggleClass("hidden");
+            }
+
+            // Close modal
+            function closeModal() {
+                $("#importstudent").toggleClass("hidden");
+                $("#modalOverlay").hide();
+            }
+
+            function closeImportfile() {
+                $("#importfile").toggleClass("hidden");
+                $("#modalOverlay").hide();
+            }
+
+            $('#dropzone-file').change(function() {
+                // Get the selected file's name
+                var fileName = $(this).val().split('\\').pop();
+
+                // Update a label or text element with the file name
+                $('#file_name_display').text(fileName);
+            });
+
+            $("#openModal").click(showStudentModal);
+            $("#toggleStudent").click(toggleStudentImport);
+            $("#toggleFile").click(toggleFileImport);
+            $("#closeModal").click(closeModal);
+            $("#closeImportfile").click(closeImportfile);
+
+
+        });
+    </script>
+</x-app-layout>

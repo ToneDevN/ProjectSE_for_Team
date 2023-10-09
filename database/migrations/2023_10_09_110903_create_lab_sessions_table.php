@@ -13,17 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            // $table->string('lname');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('role')->default(0);
-            $table->rememberToken();
+        Schema::create('lab_sessions', function (Blueprint $table) {
+            $table->unsignedBigInteger('labSession_id')->autoIncrement();
+            $table->unsignedBigInteger('subject_id');
+            $table->string('labSession');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['labSession_id', 'subject_id']);
+            $table->foreign('subject_id')->references('subject_id')->on('subjects');
         });
     }
 
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('lab_sessions');
     }
 };
