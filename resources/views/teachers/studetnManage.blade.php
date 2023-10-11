@@ -75,9 +75,9 @@
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
                         <div class="relative overflow-x-auto">
-                            <table class="w-full text-base text-left text-gray-500 dark:text-gray-400">
+                            <table class="w-full text-base text-left text-gray-700 ">
                                 <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 ">
                                     <tr class="font-medium text-lg">
                                         <th scope="col" class="px-6 py-3">
                                             รหัสนักศึกษา
@@ -99,9 +99,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($student as $student)
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <tr class="bg-white border-b ">
                                             <th scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                 {{ $student->student->student_code }}
                                             </th>
                                             <td class="px-6 py-4">
@@ -192,7 +192,7 @@
                         id="">นำเข้าไฟล์ Excel</button>
                 </div>
 
-                <form action="{{ route('teacher.addsubject') }}" method="POST" class="flex flex-col my-4">
+                <form action="{{ route('teacher.importStudent') }}" method="POST" class="flex flex-col my-4">
                     @csrf
 
                     <div class="flex items-center justify-center flex-col w-96">
@@ -213,6 +213,7 @@
                             <input id="dropzone-file" type="file" class="hidden" name="dropzone-file" />
 
                         </label>
+                        <input type="hidden" name="subject_id" value="{{ $id }}">
                         <p class="place-self-start my-4">Selected File: <span id="file_name_display">No file
                                 selected</span></p>
                     </div>

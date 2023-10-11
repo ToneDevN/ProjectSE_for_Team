@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\StudentImport;
 use App\Models\student;
 use App\Models\subject_has_students;
 use App\Models\subjects;
@@ -9,6 +10,8 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Excel;
+
 
 class TeachersContorller extends Controller
 {
@@ -65,6 +68,14 @@ class TeachersContorller extends Controller
         return redirect()->route('teacher.manage',[
             'id' => $subject_id,
     ]);
+    }
+
+    public function importStudent(Request $request){
+        $subjectCode = $request->input('subject_id');
+        $excel = app(Excel::class);
+        $excel->import(new StudentImport($subjectCode), $request->file('file'));
+
+        return redirect()->back();
     }
 
     /**

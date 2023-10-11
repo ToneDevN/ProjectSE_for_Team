@@ -39,7 +39,9 @@ Route::middleware('auth')->group(function () {
 // Student
 Route::middleware(['auth', 'UserAccess:student'])->group(function () {
     Route::get('student/home', [StudentsContorller::class, 'index'])->name('students.home');
-    Route::get('student/subject', [SubjectsController::class, 'index'])->name('studen.subject');
+    Route::get('student/subject/{id}', [StudentsContorller::class, 'subject'])->name('students.subject');
+    Route::get('student/score/{id}', [StudentsContorller::class, 'score'])->name('students.score');
+    Route::get('student/attendance/{id}', [StudentsContorller::class, 'attendance'])->name('students.attendance');
 });
 //TA
 Route::middleware(['auth', 'UserAccess:ta'])->group(function () {
@@ -60,6 +62,8 @@ Route::middleware(['auth', 'UserAccess:teacher'])->group(function () {
     Route::post('teacher/addsubject', [SubjectsController::class, 'store'])->name('teacher.addsubject');
     Route::post('teacher/addstudetn', [TeachersContorller::class, 'storeStudent'])->name('teacher.addStudent');
     Route::post('teacher/addattendancsession', [SubjectsController::class, 'rollcallSessionStore'])->name('teacher.addAtSes');
+    Route::post('teacher/importStudent', [SubjectsController::class, 'importStudent'])->name('teacher.importStudent');
+
 
 });
 

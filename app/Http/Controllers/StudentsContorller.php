@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\lab;
+use App\Models\lecture;
+use App\Models\subject_has_students;
+use App\Models\subjects;
 use Illuminate\Http\Request;
 
 class StudentsContorller extends Controller
@@ -13,8 +17,41 @@ class StudentsContorller extends Controller
      */
     public function index()
     {
-        return view('studetns.index');
+        $subject = subject_has_students::where('student_id', auth()->user()->id)->get();
+        return view('studetns.index', [
+            'subject' => $subject
+        ]);
     }
+
+    public function subject(Request $request)
+    {
+        $subjectId = $request->id;
+        $subject = subjects::where('subject_id', $subjectId)->first();
+        return view('studetns.subject', [
+            'id' => $subjectId,
+            'subject' => $subject
+        ]);
+    }
+    public function score(Request $request)
+    {
+        $subjectId = $request->id;
+        $scoreLab = lab::where('subject_id', $subjectId)->where('student_id', auth()->user()->id)->get();
+        $scoreLecture = lecture::where('subject_id', $subjectId)->where('student_id', auth()->user()->id)->get();
+        return view('studetns.score', [
+            'id' => $subjectId,
+            'lab' => $scoreLab,
+            'lecture' => $scoreLecture
+
+        ]);
+    }
+    public function attendance(Request $request)
+    {
+        $subjectId = $request->id;
+        return view('studetns.rollCall', [
+            'id' => $subjectId
+        ]);
+    }
+
 
     /**
      * Show the form for creating a new resource.

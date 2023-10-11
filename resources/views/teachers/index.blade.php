@@ -18,7 +18,7 @@
     <div class="py-4">
         <div class="w-full  mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="grid grid-cols-6 md:grid-cols-4 gap-6 p-4">
+                <div class="grid grid-cols-6 md:grid-cols-4 gap-6 p-4 xl:grid-cols-6">
                     @isset($subject)
                         @foreach ($subject as $sub)
                             <form action="{{ route('teacher.subject', ['id' => $sub->subject_id]) }}" method="GET">
