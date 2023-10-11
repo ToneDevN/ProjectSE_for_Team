@@ -62,7 +62,9 @@ class TeachersContorller extends Controller
         $subject->subject_id = $subject_id;
         $subject->save();
 
-        return redirect()->route('teacher.manage',['id' => $subject_id]);
+        return redirect()->route('teacher.manage',[
+            'id' => $subject_id,
+    ]);
     }
 
     /**

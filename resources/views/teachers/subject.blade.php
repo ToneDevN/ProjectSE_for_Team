@@ -59,7 +59,7 @@
                             <div>ชื่อวิชา : <span class="text-xl font-normal">{{ $subject->subjectName}}</span></div>
                             <div>เทอม : <span class="text-xl font-normal">{{ $subject->term}}</span></div>
                             <div>ปีการศึกษา : <span class="text-xl font-normal">{{ $subject->year}}</span></div>
-                            <div>รายละเอียด : <span class="text-xl font-normal">{{ $subject->desctiption}}</span></div>
+                            <div>รายละเอียด : <span class="text-xl font-normal">{{ $subject->description}}</span></div>
 
                         </div>
                     </div>

@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('attendanceSession_id')->autoIncrement();
             $table->unsignedBiginteger('subject_id');
             $table->string('attendanceSession');
-            $table->dateTime('attendanceOpen');
-            $table->dateTime('attendanceClose');
-            $table->dateTime('attendanceLate');
+            $table->time('attendanceOpen');
+            $table->time('attendanceClose');
+            $table->time('attendanceLate');
             $table->timestamps();
             $table->softDeletes();
 

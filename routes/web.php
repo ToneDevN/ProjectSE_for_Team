@@ -59,6 +59,7 @@ Route::middleware(['auth', 'UserAccess:teacher'])->group(function () {
     Route::get('teacher/export/{id}', [SubjectsController::class, 'export'])->name('teacher.export');
     Route::post('teacher/addsubject', [SubjectsController::class, 'store'])->name('teacher.addsubject');
     Route::post('teacher/addstudetn', [TeachersContorller::class, 'storeStudent'])->name('teacher.addStudent');
+    Route::post('teacher/addattendancsession', [SubjectsController::class, 'rollcallSessionStore'])->name('teacher.addAtSes');
 
 });
 

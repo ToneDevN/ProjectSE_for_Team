@@ -18,17 +18,17 @@
     <div class="py-4">
         <div class="w-full  mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="grid grid-cols-6 gap-6 p-4">
+                <div class="grid grid-cols-6 md:grid-cols-4 gap-6 p-4">
                     @isset($subject)
                         @foreach ($subject as $sub)
                             <form action="{{ route('teacher.subject', ['id' => $sub->subject_id]) }}" method="GET">
                                 @csrf
-                                <button class="w-full h-72 bg-slate-100  rounded-md text-white text-4xl">
+                                <button class="w-full h-72 bg-slate-100  rounded-md text-white text-4xl" id="subject_button">
                                     <div class="bg-blue-500 w-full h-2/5 top-0 rounded-t-md px-4 relative">
                                         <div class="flex justify-between">
                                             <span class="place-self-center">{{ $sub->subjectName }}</span>
                                             <a data-dropdown="dropdown-menu-{{ $sub->subject_id }}"
-                                                class="place-self-end mt-1 subject-link">
+                                                class="place-self-end mt-1 subject-link" id="dropdown">
                                                 <span class="material-symbols-outlined" style="font-size: 40px">
                                                     more_vert
                                                 </span>
@@ -73,7 +73,7 @@
 
                                     </div>
                                     <div class="w-full h-3/5 bg-slate-100 rounded-b-md font-medium text-xl text-black p-4 ">
-                                        {{ $sub->desctiption }}
+                                        {{ $sub->description }}
                                     </div>
                                 </button>
                             </form>

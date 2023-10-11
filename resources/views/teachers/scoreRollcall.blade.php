@@ -74,28 +74,26 @@
                 </div>
             </div>
             <div class="p-8">
-            <table class="border-collapse border border-slate-500">
-                <thead>
-                  <tr>
-                    <th class="border border-slate-600 px-2">รหัสนักศึกษา</th>
-                    <th class="border border-slate-600 px-2">ชื่อ-นามสกุล</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="border border-slate-700">Indiana</td>
-                    <td class="border border-slate-700">Indianapolis</td>
-                  </tr>
-                  <tr>
-                    <td class="border border-slate-700">Ohio</td>
-                    <td class="border border-slate-700">Columbus</td>
-                  </tr>
-                  <tr>
-                    <td class="border border-slate-700">Michigan</td>
-                    <td class="border border-slate-700">Detroit</td>
-                  </tr>
-                </tbody>
-              </table>
+                <table class="border-collapse border border-slate-500">
+                    <thead>
+                        <tr>
+                            <th class="border border-slate-600 px-2">รหัสนักศึกษา</th>
+                            <th class="border border-slate-600 px-2">ชื่อ-นามสกุล</th>
+                            @foreach ($session as $session)
+                                <th class="border border-slate-600 px-2">สัปดาที่ {{ $session->attendanceSession }}</th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($session as $session)
+                            <tr>
+                                <td class="border border-slate-700">{{ $student->student->student_code }}</td>
+                                <td class="border border-slate-700">Indianapolis</td>
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -113,16 +111,17 @@
             <div class="bg-white p-6 rounded-md shadow-lg">
                 <h2 class="text-2xl font-semibold mb-4">เปิดเช็คชื่อ</h2>
 
-                <form action="{{ route('teacher.addsubject') }}" method="POST" class="flex flex-col my-4">
+                <form action="{{ route('teacher.addAtSes') }}" method="POST" class="flex flex-col my-4">
                     @csrf
+                    <input type="hidden" value="{{ $id }}" name="subject_id">
                     <label for="subject_code">สัปดาที่ :</label>
-                    <input type="number" class=" w-96 rounded-lg my-2 border-2" name="subject_name" id="subject_name">
+                    <input type="number" class=" w-96 rounded-lg my-2 border-2" name="session">
                     <label for="subject_name">เวลาเปิด :</label>
-                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="subject_name" id="subject_name">
+                    <input type="time" class=" w-96 rounded-lg my-2 border-2" name="attendanceOpen">
                     <label for="subject_desc">เวลาปิด :</label>
-                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="subject_desc" id="subject_desc">
+                    <input type="time" class=" w-96 rounded-lg my-2 border-2" name="attendanceClose">
                     <label for="section">เวลาสาย :</label>
-                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="section" id="section">
+                    <input type="time" class=" w-96 rounded-lg my-2 border-2" name="attendanceLate">
                     <div class="flex justify-end">
                         <button id="closeModal" type="button"
                             class="mt-4 mx-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">

@@ -52,11 +52,85 @@
         {{-- EndSideBar --}}
         <div class="col-start-3 col-span-12 ">
             <div class="pt-6">
-                <div class="w-full mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900 text-2xl font-medium">
+                <div class="w-full mx-auto sm:px-6 lg:px-8 py-4">
+                    <div class="bg-white flex justify-around shadow-sm sm:rounded-lg">
+                        <span class="p-6 text-gray-900 text-2xl font-medium">
                             นักศึกษา
+                        </span>
+                        <span class="p-6 relative w-full">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-10 pointer-events-none">
+                                <svg class=" text-gray-700 h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <input type="text" id="simple-search"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-md focus:ring-blue-500 focus:border-blue-500 block w-1/3 pl-16 p-2.5  "
+                                placeholder="ค้นหารหัสนักศึกษา" required>
+                        </span>
+                    </div>
+                </div>
+                <div class="w-full mx-auto sm:px-6 lg:px-8 py-4">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+                        <div class="relative overflow-x-auto">
+                            <table class="w-full text-base text-left text-gray-500 dark:text-gray-400">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr class="font-medium text-lg">
+                                        <th scope="col" class="px-6 py-3">
+                                            รหัสนักศึกษา
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            ชื่อ-นามสกุล
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            คณะ
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            สาขา
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            ลบ/แก้ไข
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($student as $student)
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row"
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {{ $student->student->student_code }}
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {{ $student->student->user->name }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ $student->student->faculty }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ $student->student->branch }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <button class="bg-yellow-500 w-14 h-10 rounded-md text-white">
+                                                    <span class="material-symbols-outlined">
+                                                        edit
+                                                    </span>
+                                                </button>
+                                                <button class="bg-rose-600 w-14 h-10 rounded-md text-white">
+                                                    <span class="material-symbols-outlined">
+                                                        delete
+                                                    </span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -93,7 +167,7 @@
                     <input type="text" class=" w-96 rounded-lg my-2 border-2" name="faculty" id="faculty">
                     <label for="section">สาขา :</label>
                     <input type="text" class=" w-96 rounded-lg my-2 border-2" name="branch" id="branch">
-                    <input type="hidden" name="subject_id" value="{{$id}}">
+                    <input type="hidden" name="subject_id" value="{{ $id }}">
                     <div class="flex justify-end">
                         <button id="closeModal" type="button"
                             class="mt-4 mx-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">

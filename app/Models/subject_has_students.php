@@ -24,4 +24,12 @@ class subject_has_students extends Model
     public function subject(){
         return $this->belongsTo(subjects::class, 'subject_id');
     }
+
+    public function attendanceSession(){
+        return $this->hasMany(attendanceSession::class, 'subject_id');
+    }
+    
+    public function labSession(){
+        return $this->hasMany(labSession::class, 'subject_id');
+    }
 }

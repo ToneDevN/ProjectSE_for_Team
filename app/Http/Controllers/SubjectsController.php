@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\attendanceSession;
+use App\Models\lecture;
+use App\Models\student;
+use App\Models\subject_has_students;
 use App\Models\subjects;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SubjectsController extends Controller
@@ -18,40 +23,83 @@ class SubjectsController extends Controller
         return view('studetns.subject');
     }
 
-    public function subjectTeacher(Request $request){
+    public function subjectTeacher(Request $request)
+    {
         $subjectId = $request->id;
         $subject = subjects::where('subject_id', $subjectId)->first();
-        return view('teachers.subject',[
-            'id' =>$subjectId,
+        return view('teachers.subject', [
+            'id' => $subjectId,
             'subject' => $subject
         ]);
     }
-    public function rollcall(Request $request){
-        $subjectId = $request->id;
+    public function rollcall(Request $request)
+    {
+        $attendace = array();
 
-        return view('teachers.scoreRollcall',[
-            'id' =>$subjectId
+        $subjectId = $request->id;
+        $session = attendanceSession::where('subject_id',$subjectId)->get();
+        $student = student::all();
+        $student = subject_has_students::where('subject_id',$subjectId)->get();
+        dd($student->student);
+        // foreach($student as $student){
+        //     foreach($){
+        //         $attendace = lecture::where('student_id',$student->student_id)->get();
+        //         dd($attendace);
+        //     }
+            
+        // }
+        
+
+        return view('teachers.scoreRollcall', [
+            'id' => $subjectId,
+            'session' => $session,
+            'student' => $student
         ]);
     }
-    public function lab(Request $request){
-        $subjectId = $request->id;
 
-        return view('teachers.scoreLab',[
-            'id' =>$subjectId
+    public function rollcallSessionStore(Request $request)
+    {
+        $subjectId = $request->subject_id;
+
+        $subject = new attendanceSession;
+        $subject->subject_id = (int) $subjectId;
+        $subject->attendanceSession = $request->input('session');
+        $subject->attendanceOpen = $request->input('attendanceOpen');
+        $subject->attendanceClose = $request->input('attendanceClose');
+        $subject->attendanceLate = $request->input('attendanceLate');
+        $subject->save();
+
+        return redirect()->route('teacher.rollcall', [
+            'id' => $subjectId
         ]);
     }
-    public function manage(Request $request){
+
+    public function lab(Request $request)
+    {
         $subjectId = $request->id;
 
-        return view('teachers.studetnManage',[
-            'id' =>$subjectId
+        return view('teachers.scoreLab', [
+            'id' => $subjectId
         ]);
     }
-    public function export(Request $request){
+    public function manage(Request $request)
+    {
         $subjectId = $request->id;
 
-        return view('teachers.export',[
-            'id' =>$subjectId
+        $student = subject_has_students::where('subject_id', $subjectId)->get();
+
+        return view('teachers.studetnManage', [
+            'id' => $subjectId,
+            'student' => $student
+
+        ]);
+    }
+    public function export(Request $request)
+    {
+        $subjectId = $request->id;
+
+        return view('teachers.export', [
+            'id' => $subjectId
         ]);
     }
 
@@ -62,7 +110,7 @@ class SubjectsController extends Controller
      */
     public function create()
     {
-       //
+        //
 
     }
 
