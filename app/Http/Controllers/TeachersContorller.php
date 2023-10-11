@@ -10,7 +10,8 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Excel as ExcelExcel;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class TeachersContorller extends Controller
@@ -22,8 +23,8 @@ class TeachersContorller extends Controller
      */
     public function index()
     {
-        $subject = subjects::where('user_id',auth()->user()->id)->get();
-        return view('teachers.index',[
+        $subject = subjects::where('user_id', auth()->user()->id)->get();
+        return view('teachers.index', [
             'subject' => $subject
         ]);
     }
@@ -47,7 +48,7 @@ class TeachersContorller extends Controller
     public function storeStudent(Request $request)
     {
         $subject_id = (int) $request->input('subject_id');
-        
+
         $user = new User;
         $user->name = $request->input('name');
         $user->email = $request->input('email');
@@ -65,17 +66,30 @@ class TeachersContorller extends Controller
         $subject->subject_id = $subject_id;
         $subject->save();
 
-        return redirect()->route('teacher.manage',[
+        return redirect()->route('teacher.manage', [
             'id' => $subject_id,
-    ]);
+        ]);
     }
 
-    public function importStudent(Request $request){
+    public function importStudent(Request $request, Excel $excel)
+    {
         $subjectCode = $request->input('subject_id');
-        $excel = app(Excel::class);
-        $excel->import(new StudentImport($subjectCode), $request->file('file'));
+        $file = $request->file('dropzone-file');
+        dd($file);
+        $fileType = 'Excel2007'; // ระบุชนิดของไฟล์ Excel สำหรับ .xlsx
 
-        return redirect()->back();
+        // ตรวจสอบว่าไฟล์ถูกส่งมาหรือไม่
+        if ($file) {
+            $excel->import(new StudentImport($subjectCode), $file, function ($reader) use ($fileType) {
+                // กำหนด ReaderType แบบชัดเจน
+                $reader->setFileType($fileType);
+            });
+        } else {
+            // ดำเนินการกรณีไม่ได้รับไฟล์
+            return redirect()->back()->with('error', 'กรุณาเลือกไฟล์ Excel ที่ต้องการนำเข้า');
+        }
+
+        return redirect()->back()->with('success', 'นำเข้าข้อมูลสำเร็จ');
     }
 
     /**

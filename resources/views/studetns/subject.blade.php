@@ -6,7 +6,7 @@
                 <ul class="grid gap-4 ">
                     <li class="h-10 ">
                         <a href="{{ route('students.subject', ['id' => $id]) }}">
-                            <div class="bg-gray-900 w-full h-full flex justify-items-start rounded-r-md p-4">
+                            <div class="bg-gray-900 w-full h-full flex justify-items-start rounded-r-md border-l-4 p-4">
                                 <div class="place-self-center">หน้าหลักวิชา</div>
                             </div>
                         </a>

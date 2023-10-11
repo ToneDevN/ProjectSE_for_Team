@@ -13,7 +13,7 @@
                     </li>
                     <li class="h-10 ">
                         <a href="{{ route('students.attendance', ['id' => $id]) }}">
-                            <div class="bg-gray-900 w-full h-full flex justify-items-start rounded-r-md p-4">
+                            <div class="bg-gray-900 w-full h-full flex justify-items-start rounded-r-md border-l-4 p-4">
                                 <div class="place-self-center">เช็คชื่อ</div>
                             </div>
                         </a>

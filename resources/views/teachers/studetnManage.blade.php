@@ -192,7 +192,7 @@
                         id="">นำเข้าไฟล์ Excel</button>
                 </div>
 
-                <form action="{{ route('teacher.importStudent') }}" method="POST" class="flex flex-col my-4">
+                <form action="{{ route('teacher.importStudent') }}" method="POST" class="flex flex-col my-4" enctype="multipart/form-data">
                     @csrf
 
                     <div class="flex items-center justify-center flex-col w-96">
@@ -211,7 +211,6 @@
                                     เท่านั้น</p>
                             </div>
                             <input id="dropzone-file" type="file" class="hidden" name="dropzone-file" />
-
                         </label>
                         <input type="hidden" name="subject_id" value="{{ $id }}">
                         <p class="place-self-start my-4">Selected File: <span id="file_name_display">No file
