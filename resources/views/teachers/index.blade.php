@@ -23,12 +23,15 @@
                         @foreach ($subject as $sub)
                             <form action="{{ route('teacher.subject', ['id' => $sub->subject_id]) }}" method="GET">
                                 @csrf
-                                <button class="w-full h-72 bg-slate-100  rounded-md text-white text-4xl" id="subject_button">
+                                <button class="w-full h-72 bg-slate-100  rounded-md text-white text-4xl"
+                                    id="subject_button">
                                     <div class="bg-blue-500 w-full h-2/5 top-0 rounded-t-md px-4 relative">
                                         <div class="flex justify-between">
-                                            <span class="place-self-center">{{ $sub->subjectName }}</span>
+                                            <span class="place-self-center "
+                                                style="max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $sub->subjectName }}</span>
                                             <a data-dropdown="dropdown-menu-{{ $sub->subject_id }}"
-                                                class="place-self-end mt-1 subject-link" id="dropdown">
+                                                onclick="event.preventDefault()" class="place-self-end mt-1 subject-link"
+                                                id="dropdown">
                                                 <span class="material-symbols-outlined" style="font-size: 40px">
                                                     more_vert
                                                 </span>
@@ -37,10 +40,11 @@
                                             {{-- dropdown-list --}}
 
                                             <div
-                                                class="text-xl text-black absolute -bottom-4 right-0 w-1/3 mr-4 hidden dropdown-menu-{{ $sub->subject_id }}">
+                                                class="text-xl text-black absolute -bottom-4 right-0 w-2/5 mr-4 hidden dropdown-menu-{{ $sub->subject_id }}">
                                                 <ul>
                                                     <li class="w-full h-1/2 bg-yellow-500 rounded-md p-1">
-                                                        <a class="" href="#">
+                                                        <a class="" href="#" onclick="event.preventDefault()"
+                                                            id="editModal" data-edit-id="{{ $sub->subject_id }}">
                                                             <div class="w-full h-full flex justify-start">
                                                                 <span
                                                                     class="material-symbols-outlined flex place-items-center">
@@ -51,7 +55,8 @@
                                                         </a>
                                                     </li>
                                                     <li class="bg-rose-500 w-full h-1/2 rounded-md p-1">
-                                                        <a class="" href="#">
+                                                        <a class="" href="#" onclick="event.preventDefault()"
+                                                            id="deleteModal" data-delete-id="{{ $sub->subject_id }}">
                                                             <div class="w-full h-full flex justify-start">
                                                                 <span
                                                                     class="material-symbols-outlined flex place-items-center">
@@ -77,6 +82,7 @@
                                     </div>
                                 </button>
                             </form>
+           
                         @endforeach
                     @endisset
                 </div>
@@ -104,11 +110,14 @@
                 <form action="{{ route('teacher.addsubject') }}" method="POST" class="flex flex-col my-4">
                     @csrf
                     <label for="subject_code">รหัสวิชา :</label>
-                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="subject_code" id="subject_code">
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="subject_code"
+                        id="subject_code">
                     <label for="subject_name">ชื่อวิชา :</label>
-                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="subject_name" id="subject_name">
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="subject_name"
+                        id="subject_name">
                     <label for="subject_desc">รายละเอียด :</label>
-                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="subject_desc" id="subject_desc">
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="subject_desc"
+                        id="subject_desc">
                     <label for="section">เซคชั่น :</label>
                     <input type="text" class=" w-96 rounded-lg my-2 border-2" name="section" id="section">
                     <label for="term">เทอม :</label>
@@ -129,6 +138,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     <script>
         $(document).ready(function() {
@@ -153,7 +165,11 @@
             $("#closeModal").click(function() {
                 $("#myModal").addClass("hidden");
                 $("#modalOverlay").hide();
+
             });
+
+            
+
 
 
         });

@@ -43,7 +43,7 @@
                         <span class="p-6 text-gray-900 text-2xl font-medium">
                             คะแนนเช็คชื่อ
                         </span>
-                        
+
                     </div>
                 </div>
                 <div class="w-full mx-auto sm:px-6 lg:px-8 py-4">
@@ -51,52 +51,21 @@
 
                         <div class="relative overflow-x-auto">
                             <table class="w-full text-base text-left text-gray-700 ">
-                                <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50 table-fixed">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 table-fixed">
                                     <tr class="font-medium text-lg">
-                                        <th scope="col" class="px-6 py-3 w-44">
-                                            รหัสนักศึกษา
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 w-44">
-                                            ชื่อ-นามสกุล
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 ">
-                                            สัปดาที่ 1
-                                        </th>
-                                       
-
+                                        @foreach ($sessions as $session)
+                                            <th scope="col" class="px-6 py-3 w-10">สัปดาที่
+                                                {{ $session->attendanceSession }}</th>
+                                        @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($student as $student)
-                                        <tr class="bg-white border-b ">
-                                            <th scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                {{ $student->student->student_code }}
-                                            </th>
-                                            <td class="px-6 py-4">
-                                                {{ $student->student->user->name }}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                {{ $student->student->faculty }}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                {{ $student->student->branch }}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <button class="bg-yellow-500 w-14 h-10 rounded-md text-white">
-                                                    <span class="material-symbols-outlined">
-                                                        edit
-                                                    </span>
-                                                </button>
-                                                <button class="bg-rose-600 w-14 h-10 rounded-md text-white">
-                                                    <span class="material-symbols-outlined">
-                                                        delete
-                                                    </span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach --}}
+                                    <tr>
+                                        @foreach ($lectures as $lecture)
+                                            <td scope="col" class="px-6 py-3 w-10">{{ $lecture->lectureScore }}</td>
+                                        @endforeach
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -111,7 +80,7 @@
                         <span class="p-6 text-gray-900 text-2xl font-medium">
                             คะแนนแล็บ
                         </span>
-                        
+
                     </div>
                 </div>
                 <div class="w-full mx-auto sm:px-6 lg:px-8 py-4">
@@ -119,8 +88,7 @@
 
                         <div class="relative overflow-x-auto">
                             <table class="w-full text-base text-left text-gray-700 table-fixed">
-                                <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                                     <tr class="font-medium text-lg">
                                         <th scope="col" class="px-6 py-3 w-44">
                                             รหัสนักศึกษา
@@ -131,7 +99,7 @@
                                         <th scope="col" class="px-6 py-3 ">
                                             สัปดาที่ 1
                                         </th>
-                                        
+
 
                                     </tr>
                                 </thead>

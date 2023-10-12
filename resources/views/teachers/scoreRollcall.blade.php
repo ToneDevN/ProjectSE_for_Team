@@ -79,16 +79,26 @@
                         <tr>
                             <th class="border border-slate-600 px-2">รหัสนักศึกษา</th>
                             <th class="border border-slate-600 px-2">ชื่อ-นามสกุล</th>
-                            @foreach ($session as $session)
+                            @foreach ($sessions as $session)
                                 <th class="border border-slate-600 px-2">สัปดาที่ {{ $session->attendanceSession }}</th>
                             @endforeach
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($session as $session)
+                        @foreach ($student as $students)
                             <tr>
-                                <td class="border border-slate-700">{{ $student->student->student_code }}</td>
-                                <td class="border border-slate-700">Indianapolis</td>
+                                <td class="border border-slate-700">{{ $students->student->student_code }}</td>
+                                <td class="border border-slate-700">{{ $students->student->user->name }}</td>
+                                @foreach ($sessions as $ses)
+                                    @foreach ($attendance as $attend)
+                                        @if (
+                                            $attend->attendanceSession_id === $ses->attendanceSession_id &&
+                                                $attend->student_id === $students->student->student_id)
+                                            <td class="border border-slate-700">{{ $attend->lectureScore }}</td>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+
                             </tr>
                         @endforeach
 

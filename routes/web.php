@@ -42,6 +42,7 @@ Route::middleware(['auth', 'UserAccess:student'])->group(function () {
     Route::get('student/subject/{id}', [StudentsContorller::class, 'subject'])->name('students.subject');
     Route::get('student/score/{id}', [StudentsContorller::class, 'score'])->name('students.score');
     Route::get('student/attendance/{id}', [StudentsContorller::class, 'attendance'])->name('students.attendance');
+    Route::post('teacher/attendancerecord', [StudentsContorller::class, 'attendacerecord'])->name('student.attendacerecord');
 });
 //TA
 Route::middleware(['auth', 'UserAccess:ta'])->group(function () {
@@ -63,6 +64,8 @@ Route::middleware(['auth', 'UserAccess:teacher'])->group(function () {
     Route::post('teacher/addstudetn', [TeachersContorller::class, 'storeStudent'])->name('teacher.addStudent');
     Route::post('teacher/addattendancsession', [SubjectsController::class, 'rollcallSessionStore'])->name('teacher.addAtSes');
     Route::post('teacher/importStudent', [TeachersContorller::class, 'importStudent'])->name('teacher.importStudent');
+    Route::post('teacher/editsubject', [SubjectsController::class, 'editSubject'])->name('teacher.editSubject');
+    Route::post('teacher/deletesubject', [SubjectsController::class, 'deleteSubject'])->name('teacher.deleteSubject');
 
 
 });

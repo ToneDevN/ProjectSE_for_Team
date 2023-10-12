@@ -34,9 +34,27 @@
                     </li>
                 </ul>
             </div>
+        </div>
             {{-- EndSideBar --}}
             <div class="col-start-3 col-span-12 ">
+                <div class="pt-6">
+                    <div class="w-full mx-auto sm:px-6 lg:px-8">
+                        <form action="{{ route('student.attendacerecord') }}" method="POST">
+                            @csrf <!-- ใส่ตัวรหัสความปลอดภัย (CSRF token) สำหรับความปลอดภัย -->
+                            <!-- ส่วนที่คุณต้องการส่ง -->
+                            <label for="input_field">เช็คชื่อสัปดาที่ :</label>
+                            <input type="number" name="attend" id="attend">
+                            <input type="hidden" name="subject_id" value="{{$id}}">
 
+                            <!-- ปุ่มสำหรับส่งฟอร์ม -->
+                            <button id="saveData" type="submit"
+                            class="mt-4 mx-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            เช็คชื่อ
+                        </button>
+                        </form>
+
+                    </div>
+                </div>
             </div>
         </div>
         </x-app-layouts>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\attendanceSession;
 use App\Models\lab;
 use App\Models\lecture;
 use App\Models\subject_has_students;
@@ -35,14 +36,17 @@ class StudentsContorller extends Controller
     public function score(Request $request)
     {
         $subjectId = $request->id;
+        $session = attendanceSession::where('subject_id', $subjectId)->get();
         $scoreLab = lab::where('subject_id', $subjectId)->where('student_id', auth()->user()->id)->get();
         $scoreLecture = lecture::where('subject_id', $subjectId)->where('student_id', auth()->user()->id)->get();
         return view('studetns.score', [
             'id' => $subjectId,
             'lab' => $scoreLab,
-            'lecture' => $scoreLecture
+            'lectures' => $scoreLecture,
+            'sessions'=>$session
 
         ]);
+
     }
     public function attendance(Request $request)
     {
@@ -51,6 +55,22 @@ class StudentsContorller extends Controller
             'id' => $subjectId
         ]);
     }
+
+    public function attendacerecord(Request $request)
+    {
+        $attend = lecture::where('attendanceSession_id', $request->input('attend'))
+            ->where('subject_id', $request->input('subject_id'))
+            ->where('student_id', auth()->user()->id)
+            ->first();
+
+        if ($attend) {
+            $attend->lectureScore = 1;
+            $attend->save();
+        }
+
+        return redirect('students.score', ['id' => $request->input('subject_id')]);
+    }
+
 
 
     /**

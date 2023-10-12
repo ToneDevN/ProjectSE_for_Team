@@ -114,12 +114,12 @@
                                                 {{ $student->student->branch }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                <button class="bg-yellow-500 w-14 h-10 rounded-md text-white">
+                                                <button class="bg-yellow-500 w-14 h-10 rounded-md text-white" id="editModal">
                                                     <span class="material-symbols-outlined">
                                                         edit
                                                     </span>
                                                 </button>
-                                                <button class="bg-rose-600 w-14 h-10 rounded-md text-white">
+                                                <button class="bg-rose-600 w-14 h-10 rounded-md text-white" id="deleteModal">
                                                     <span class="material-symbols-outlined">
                                                         delete
                                                     </span>
@@ -182,6 +182,67 @@
             </div>
         </div>
     </div>
+
+    <div id="editStudent" class="fixed mt-10 inset-0 z-50 hidden">
+        <!-- Modal Content -->
+        <div class="flex place-content-center">
+            <div class="bg-white p-16 rounded-md shadow-lg">
+                <h2 class="text-2xl font-semibold mb-4">แก้ไขข้อมูลนักศึกษา</h2>
+                <form action="{{ route('teacher.addStudent') }}" method="POST" class="flex flex-col my-4">
+                    @csrf
+                    <label for="subject_name">รหัสนักศึกษา :</label>
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="code" id="code">
+                    <label for="subject_code">ชื่อ-นามสกุล :</label>
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="name" id="name">
+                    <label for="subject_desc">อีเมล :</label>
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="email" id="email">
+                    <label for="section">คณะ :</label>
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="faculty" id="faculty">
+                    <label for="section">สาขา :</label>
+                    <input type="text" class=" w-96 rounded-lg my-2 border-2" name="branch" id="branch">
+                    <label for="student">Student :</label>
+                    <input type="radio" name="role" id="" value="student">
+                    <label for="student">Ta :</label>
+                    <input type="radio" name="role" id="" value="TA">
+                    <input type="hidden" name="subject_id" value="{{ $id }}">
+                    <div class="flex justify-end">
+                        <button id="closeEdit" type="button"
+                            class="mt-4 mx-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                            ปิด
+                        </button>
+                        <button id="saveData" type="submit"
+                            class="mt-4 mx-4 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                            แก้ไข
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="deleteStudent" class="fixed mt-10 inset-0 z-50 hidden">
+        <!-- Modal Content -->
+        <div class="flex place-content-center">
+            <div class="bg-white p-16 rounded-md shadow-lg">
+                <h2 class="text-2xl font-semibold mb-4">ลบข้อมูลนักศึกษา</h2>
+                <form action="{{ route('teacher.addStudent') }}" method="POST" class="flex flex-col my-4">
+                    @csrf
+                    
+                    <input type="hidden" name="subject_id" value="{{ $id }}">
+                    <div class="flex justify-end">
+                        <button id="closeDelete" type="button"
+                            class="mt-4 mx-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                            ปิด
+                        </button>
+                        <button id="saveData" type="submit"
+                            class="mt-4 mx-4 bg-rose-600 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded">
+                            ลบ
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     <div id="importfile" class="fixed mt-10 inset-0 z-50 hidden">
         <!-- Modal Content -->
         <div class="flex place-content-center">
@@ -239,6 +300,14 @@
                 $("#importstudent").toggleClass("hidden");
                 $("#modalOverlay").show();
             }
+            function editStudentModal() {
+                $("#editStudent").toggleClass("hidden");
+                $("#modalOverlay").show();
+            }
+            function deleteStudentModal() {
+                $("#deleteStudent").toggleClass("hidden");
+                $("#modalOverlay").show();
+            }
 
             // Open modal import file.
             function toggleStudentImport() {
@@ -256,6 +325,16 @@
                 $("#importstudent").toggleClass("hidden");
                 $("#modalOverlay").hide();
             }
+            
+                function closeEdit() {
+                $("#editStudent").toggleClass("hidden");
+                $("#modalOverlay").hide();
+            }
+            
+                function closeDelete() {
+                $("#deleteStudent").toggleClass("hidden");
+                $("#modalOverlay").hide();
+            }
 
             function closeImportfile() {
                 $("#importfile").toggleClass("hidden");
@@ -271,9 +350,13 @@
             });
 
             $("#openModal").click(showStudentModal);
+            $("#closeModal").click(closeModal);
+            $("#editModal").click(editStudentModal);
+            $("#closeEdit").click(closeEdit);
+            $("#deleteModal").click(deleteStudentModal);
+            $("#closeDelete").click(closeDelete);
             $("#toggleStudent").click(toggleStudentImport);
             $("#toggleFile").click(toggleFileImport);
-            $("#closeModal").click(closeModal);
             $("#closeImportfile").click(closeImportfile);
 
 

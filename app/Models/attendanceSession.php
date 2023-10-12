@@ -15,4 +15,8 @@ class attendanceSession extends Model
         return $this->belongsTo(subjects::class, 'subject_id');
     }
 
+    public function lectures(){
+        return $this->hasMany(lecture::class, 'attendanceSession_id ');
+    }
+
 }

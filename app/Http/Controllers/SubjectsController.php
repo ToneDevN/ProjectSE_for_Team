@@ -34,26 +34,17 @@ class SubjectsController extends Controller
     }
     public function rollcall(Request $request)
     {
-        $attendace = array();
 
         $subjectId = $request->id;
-        $session = attendanceSession::where('subject_id',$subjectId)->get();
-        $student = student::all();
-        $student = subject_has_students::where('subject_id',$subjectId)->get();
-        dd($student->student);
-        // foreach($student as $student){
-        //     foreach($){
-        //         $attendace = lecture::where('student_id',$student->student_id)->get();
-        //         dd($attendace);
-        //     }
-            
-        // }
-        
+        $session = attendanceSession::where('subject_id', $subjectId)->get();
+        $student = subject_has_students::where('subject_id', $subjectId)->get();
+        $lecture = lecture::where('subject_id',$subjectId)->get();
 
         return view('teachers.scoreRollcall', [
             'id' => $subjectId,
-            'session' => $session,
-            'student' => $student
+            'sessions' => $session,
+            'student' => $student,
+            'attendance' => $lecture
         ]);
     }
 
@@ -61,13 +52,24 @@ class SubjectsController extends Controller
     {
         $subjectId = $request->subject_id;
 
-        $subject = new attendanceSession;
-        $subject->subject_id = (int) $subjectId;
-        $subject->attendanceSession = $request->input('session');
-        $subject->attendanceOpen = $request->input('attendanceOpen');
-        $subject->attendanceClose = $request->input('attendanceClose');
-        $subject->attendanceLate = $request->input('attendanceLate');
-        $subject->save();
+        $attend = new attendanceSession;
+        $attend->subject_id = (int) $subjectId;
+        $attend->attendanceSession = $request->input('session');
+        $attend->attendanceOpen = $request->input('attendanceOpen');
+        $attend->attendanceClose = $request->input('attendanceClose');
+        $attend->attendanceLate = $request->input('attendanceLate');
+        $attend->save();
+
+        $attends= attendanceSession::where('subject_id',$subjectId)->where('attendanceSession',$request->input('session'))->first();
+        $students = subject_has_students::where('subject_id', $subjectId)->get();
+        foreach($students as $student){
+            $lecture = new lecture;
+            $lecture->subject_id = (int) $subjectId;
+            $lecture->student_id = $student->student->student_id;
+            $lecture->attendanceSession_id = $attends->attendanceSession_id;
+            $lecture->save();
+        }
+        
 
         return redirect()->route('teacher.rollcall', [
             'id' => $subjectId
@@ -132,6 +134,31 @@ class SubjectsController extends Controller
         $subject->year = $request->input('year');
         $subject->save();
 
+        return redirect()->route('teacher.home');
+    }
+    public function editSubject(Request $request)
+    {
+        $subjectId = $request->input('subject_id');
+
+        $subject = subjects::where('subject_id',$subjectId)->first();
+
+        $subject->subjectCode = $request->input('subject_code');
+        $subject->user_id = auth()->user()->id;
+        $subject->subjectName = $request->input('subject_name');
+        $subject->description = $request->input('subject_desc');
+        $subject->section = $request->input('section');
+        $subject->term = $request->input('term');
+        $subject->year = $request->input('year');
+        $subject->save();
+
+        return redirect()->route('teacher.home');
+    }
+    public function deleteSubject(Request $request)
+    {
+        $subjectId = $request->input('id');
+
+        subjects::destroy($subjectId);
+        
         return redirect()->route('teacher.home');
     }
 

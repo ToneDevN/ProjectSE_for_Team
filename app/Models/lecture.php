@@ -13,7 +13,7 @@ class lecture extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $primaryKey = ['student_id', 'subject_id'];
+
 
     public function student(){
         return $this->belongsTo(student::class, 'student_id');
@@ -22,4 +22,9 @@ class lecture extends Model
     public function subject(){
         return $this->belongsTo(subjects::class, 'subject_id');
     }
+    public function attendance(){
+        return $this->belongsTo(attendanceSession::class, 'attendanceSession_id ');
+    }
+
+
 }
